@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "vrhKA6dU1v4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Daniil\\source\\repos\\SCOI.WPF\\SCOI.WPF\\SCOI.WPF.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Daniil\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.2\\microsoft.win32.systemevents.9.0.2.nupkg.sha512",
+    "C:\\Users\\Daniil\\.nuget\\packages\\system.drawing.common\\9.0.2\\system.drawing.common.9.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
