@@ -97,13 +97,13 @@ namespace SCOI.WPF.ViewModels
         {
             double[] xs1 = new double[vectors.Count];
             double[] ys1 = new double[vectors.Count];
-            for (int i = 0; i < 256 * 256; i++)
+            Parallel.For(0, 255 * 255, (i, state) =>
             {
                 data[i * 4] = 200;
                 data[i * 4 + 1] = 200;
                 data[i * 4 + 2] = 200;
                 data[i * 4 + 3] = 255;
-            }
+            });
 
             double[] xs2 = new double[256];
             double[] ys2 = new double[256];
@@ -116,13 +116,15 @@ namespace SCOI.WPF.ViewModels
                 k++;
             }
             (xs2, ys2) = Cubic.InterpolateXY(xs1, ys1, 256);
-            for (int i = 255; i >= 0; i--)
+            Parallel.For(0, 256, (i, state) =>
+
+            //for (int i = 255; i >= 0; i--)
             {
                 function[Method.CapByte(xs2[i])] = Method.CapByte(ys2[i]);
                 data[4 * (Method.CapByte(xs2[i]) + 256 * Method.CapByte(ys2[i])) + 0] = 0;
                 data[4 * (Method.CapByte(xs2[i]) + 256 * Method.CapByte(ys2[i])) + 1] = 0;
                 data[4 * (Method.CapByte(xs2[i]) + 256 * Method.CapByte(ys2[i])) + 2] = 0;
-            }
+            });
             foreach (var vec in vectors)
             {
 

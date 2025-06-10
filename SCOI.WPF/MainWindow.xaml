@@ -14,6 +14,7 @@
 
                     </MenuItem>
                 </MenuItem>
+                <TextBlock Text="{Binding Time}"/>
             </Menu>
         </StackPanel>
         <Grid>
@@ -23,10 +24,10 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition MaxWidth="450"/>
+                <ColumnDefinition MaxWidth="450" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
             </Grid.ColumnDefinitions>
             <Image Source="{Binding OutputBitmap}" Grid.Column="0" Grid.Row="0"/>
-            <TabControl Grid.Row="0" Grid.Column="1">
+            <TabControl Grid.Row="0" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <TabItem Header="Layers">
                     <StackPanel Orientation="Vertical">
 
@@ -104,10 +105,92 @@
                 </TabItem>
                 <TabItem Header="Binarization">
                     <StackPanel Orientation="Vertical">
-                        <ComboBox ItemsSource="{Binding}">
+                        <CheckBox IsChecked="{Binding Bin}"/>
+                        <ComboBox ItemsSource="{Binding Path=DataContext.BinarizationMethods, RelativeSource={RelativeSource AncestorType=Window}}" DisplayMemberPath="Name" SelectedValue="{Binding Binarization}">
 
                         </ComboBox>
+                        <TextBlock Text="Size:" Visibility="{Binding Path=DataContext.Binarization.SizeVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        <TextBox Text="{Binding Path=DataContext.Binarization.Size, RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding Path=DataContext.Binarization.SizeVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        <TextBlock Text="Sensivity: " Visibility="{Binding Path=DataContext.Binarization.SizeVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        <TextBox Text="{Binding Path=DataContext.Binarization.Sens, RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding Path=DataContext.Binarization.SensVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        <TextBlock Text="Strength: " Visibility="{Binding Path=DataContext.Binarization.StrengthVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        <TextBox Text="{Binding Path=DataContext.Binarization.Strength, RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding Path=DataContext.Binarization.StrengthVisibility, RelativeSource={RelativeSource AncestorType=Window}}"/>
                     </StackPanel>
+                </TabItem>
+                <TabItem Header="Filter">
+                    <StackPanel Orientation="Vertical">
+
+                        <CheckBox IsChecked="{Binding Filter}"/>
+                        <TextBox Text="{Binding FilterX}"/>
+                        <TextBox Text="{Binding FilterY}"/>
+                        <ListBox ItemsSource="{Binding FilterData}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ListBox ItemsSource="{Binding Row}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+
+                                                    <WrapPanel IsItemsHost="True"/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBox.ItemTemplate>
+
+                                                <DataTemplate>
+
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBox Text="{Binding Data}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Content="Update" Command="{Binding ManualUpdateCommand}"/>
+                        <TextBlock Text="sigma:"/>
+                        <TextBox Text="{Binding GaussSigma}" />
+                        <Button Content="Calculate Gaussian" Command="{Binding CalculateGaussCommand}"/>
+                        <RadioButton Content="Линейная фильтрация" IsChecked="{Binding LinearFilter}" GroupName="FilterType"/>
+                        <RadioButton Content="Медианная фильтрация" IsChecked="{Binding SpaceFilter}" GroupName="FilterType"/>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Fourier" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ScrollViewer>
+
+                        <StackPanel Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxWidth="450">
+                            <CheckBox IsChecked="{Binding IsFourier}"/>
+                            <Image Source="{Binding FourierBitmap}" MaxWidth="200"/>
+                            <ListBox ItemsSource="{Binding FourierFilters}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical">
+                                            <Image Source="{Binding Source}" MaxWidth="200"/>
+                                            <ComboBox ItemsSource="{Binding FourierFilters}" DisplayMemberPath="Name" SelectedValue="{Binding Filter}"/>
+                                            <TextBlock Text="CenterX: "/>
+                                            <TextBox Text="{Binding CenterX}"/>
+                                            <TextBlock Text="CenterY: "/>
+                                            <TextBox Text="{Binding CenterY}"/>
+                                            <TextBlock Text="Radius: "/>
+                                            <TextBox Text="{Binding Radius}"/>
+                                            <TextBlock Text="Inner Radius: "/>
+                                            <TextBox Text="{Binding InnerRadius}"/>
+                                            <TextBlock Text="InsideValue: "/>
+                                            <TextBox Text="{Binding InsideVal}"/>
+                                            <TextBlock Text="OutsideValue: "/>
+                                            <TextBox Text="{Binding OutsideVal}"/>
+                                            <TextBlock Text="Sigma: "/>
+                                            <TextBox Text="{Binding Sigma}"/>
+                                            <Button Content="Delete" Command="{Binding Path=DataContext.RemoveFilterCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Button Content="+" Command="{Binding AddFilterCommand}"/>
+                            <Button Content="Update" Command="{Binding UpdateFourierCommand}"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </Grid>
