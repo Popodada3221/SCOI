@@ -1,1 +1,50 @@
-.vs
+## Игнорируем стандартные папки сборки и отладки
+bin/
+obj/
+Build/
+Output/
+
+## Игнорируем пользовательские настройки Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+## Игнорируем файлы резервных копий
+*~
+*.bak
+*.tmp
+*.temp
+
+## Игнорируем файлы для пакетов NuGet
+packages/
+*.nupkg
+
+## Игнорируем файлы, создаваемые ReSharper / Rider
+_ReSharper*/
+*.sln.ide
+*.sln.docstates
+*.sln.metaproj
+
+## Игнорируем файлы, создаваемые Git автоматически
+*.orig
+*.pidfile
+*.lock
+
+## Игнорируем файлы логов и производительности
+*.log
+*.etl
+*.psess
+*.vsp
+*.vspscc
+*.vssscc
+
+## Игнорируем локальные файлы с секретами
+appsettings.Development.json
+appsettings.Local.json
+*.local.json
+
+## Игнорируем системные файлы Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
